@@ -1,0 +1,19 @@
+encryptionsalt: v1:zATKf94mVfg=:v1:4uTImlAqXiQNVgQ3:qZMJR0IGnNDMP344vEKPEQ9theTvOQ==
+config:
+  cloudflare:apiToken:
+    secure: v1:SZF7lFens48o6TUd:WLDcQOkD6ul7hP485QK+U11dTXbpPei24N1lgX8wmOr4BTC7/gD0SKgMGK+qFhrbz/FckLLCvXY=
+  gcp:project: sapientone-dev
+  sapientone:CLOUDFLARE_API_TOKEN:
+    secure: v1:vTi7cEOjUP9bDKpM:ZIWhhx6/1+7Tj9untKlgyP4HcNB+8+k7BGLmfRQOKaHmYZdb1lfia4js1VbKYPXtKF0xBAB+yVs=
+  sapientone:CLOUDFLARE_ZONE_ID: fcb595c1ddb4396f6a1474495bf2eb77
+  sapientone:GOOGLE_PROJECT: sapientone-dev
+  sapientone:NOTION_INTEGRATION_KEY:
+    secure: v1:QK33vmOYZ5Kppeuf:gTulD0iPWdQV+3U7os2dNlFZ/5N2WD52CQe0dyX8nUYWTGiRFKPKFUPYr1KtcYv+XSBe5ho2CV4vt5LIZITvJPRd
+  sapientone:OPENAI_API_KEY:
+    secure: v1:LkZ1h/+Pf9qNJLi3:xayih2yANTqYQzTZRHRx0jTwsHrHyvgyeh2xluEZMlm9mqwnMCT89eCLTp1NXApxR8ds2hkj9bikIYMMk+c+0qAtyA==
+  sapientone:PGVECTOR_CONNECTION_STRING:
+    secure: v1:G9QtwHXj0mxKMlI8:2RzGhJqci2NPnHmERia7wWM/QgnRFBEerayXH+ywvahyzdCVvAYeXUo55gRuavaYaO6736Z0f/WBCtYGxD8hbzWNnlP5QNMoZEhG7col0q/cl2kSGPt6Y5qQHVPH5sHmMmi3kQv2q4k=
+  sapientone:SAPIENTONE_API_KEY:
+    secure: v1:b4fnA/wSdwD3mExD:PHHZMdXub0YEZJdcpl7X+/V9Czk90HMOfWWYJZmfWT1CwsXQT9zojCZBNOZLC7oBYwVaTQ==
+  sapientone:base_domain: sapientone.dipasqualew.com
+  sapientone:region: europe-west1

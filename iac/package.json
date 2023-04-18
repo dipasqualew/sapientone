@@ -1,0 +1,17 @@
+{
+    "name": "sapientone",
+    "main": "index.ts",
+    "devDependencies": {
+        "@types/node": "^16"
+    },
+    "dependencies": {
+        "@pulumi/cloudflare": "^5.0.0",
+        "@pulumi/command": "^0.7.2",
+        "@pulumi/docker": "^4.1.2",
+        "@pulumi/gcp": "^6.0.0",
+        "@pulumi/pulumi": "^3.0.0",
+        "@types/uuid": "^9.0.1",
+        "dotenv": "^16.0.3",
+        "uuid": "^9.0.0"
+    }
+}

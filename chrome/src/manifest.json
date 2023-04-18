@@ -1,0 +1,33 @@
+{
+    "manifest_version": 3,
+    "name": "Sapientone",
+    "description": "Interpret the current selection and get suggestions from your vector store.",
+    "version": "1.0",
+    "action": {
+        "default_popup": "src/html/popup/index.html",
+        "default_icon": "img/sapientone-icon.png"
+    },
+    "permissions": [
+        "activeTab",
+        "scripting",
+        "storage"
+    ],
+    "commands": {
+        "popup_selection": {
+            "suggested_key": {
+                "default": "Ctrl+B"
+            },
+            "description": "Open a popup with the selected text."
+        }
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "src/html/query/main.ts"
+            ]
+        }
+    ]
+}
