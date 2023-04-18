@@ -1,7 +1,7 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as gcp from "@pulumi/gcp";
 
-let stackConfig = new pulumi.Config();
+import { stackConfig, stack } from "../../config";
 
 
 export interface SecretOutput {
@@ -31,17 +31,17 @@ export class GCPSecret extends pulumi.ComponentResource {
         super("gcp:secret", secretName, {}, opt);
 
         // create secrets
-        const secretRef = new gcp.secretmanager.Secret(`secret:${secretName}`, {
+        const secretRef = new gcp.secretmanager.Secret(`secret:${stack}:${secretName}`, {
             replication: {
                 automatic: true,
             },
-            secretId: secretName,
+            secretId: `${stack}--${secretName}`,
         }, {
             parent: this,
             deleteBeforeReplace: true,
         });
 
-        const version = new gcp.secretmanager.SecretVersion(`secret-version:${secretName}`, {
+        const version = new gcp.secretmanager.SecretVersion(`secret-version:${stack}:${secretName}`, {
             secret: secretRef.id,
             secretData: secretValue || stackConfig.requireSecret(secretName),
         }, {

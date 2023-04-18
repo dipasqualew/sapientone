@@ -6,7 +6,19 @@ import { v4 as uuidv4 } from "uuid";
 
 import * as config from "../../config";
 
-export const imageTag = config.isDev ? uuidv4() : "latest";
+export const getImageTag = () => {
+    if (process.env.GITHUB_SHA) {
+        return process.env.GITHUB_SHA;
+    }
+
+    if (config.isDev) {
+        return uuidv4();
+    }
+
+    return 'latest';
+};
+
+export const imageTag = getImageTag();
 
 export const deployImage = (path: string, options: pulumi.ResourceOptions = {}) => {
     const registry = new gcp.container.Registry(`${config.project}-${config.stack}`);
@@ -14,10 +26,16 @@ export const deployImage = (path: string, options: pulumi.ResourceOptions = {}) 
     const registryUrl = registry.id.apply(_ => gcp.container.getRegistryRepository().then(reg => reg.repositoryUrl));
     const imageName = registryUrl.apply(url => `${url}/${config.project}:${imageTag}`);
 
-    const prepareRequirements = new command.local.Command("create-requirements-text", {
-        dir: path,
-        create: "poetry export --without-hashes --format=requirements.txt > requirements.txt"
-    }, options);
+    const deps = [];
+
+    if (config.isDev) {
+        const prepareRequirements = new command.local.Command("create-requirements-text", {
+            dir: path,
+            create: "poetry export --without-hashes --format=requirements.txt > requirements.txt"
+        }, options);
+
+        deps.push(prepareRequirements);
+    }
 
     const image = new docker.Image("docker-image", {
         build: {
@@ -31,9 +49,7 @@ export const deployImage = (path: string, options: pulumi.ResourceOptions = {}) 
         }
     }, {
         ...options,
-        dependsOn: [
-            prepareRequirements,
-        ],
+        dependsOn: deps
     });
 
     return image;

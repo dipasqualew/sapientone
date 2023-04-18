@@ -1,11 +1,14 @@
 name: Deploy Infrastructure to Staging
 on:
-  - pull_request
+  push:
+    branches:
+      - main
+
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    environment: staging
+    environment: production
     defaults:
       run:
         working-directory: ./iac
@@ -23,7 +26,7 @@ jobs:
         with:
           cloud-url: gs://${{ secrets.GOOGLE_LOGIN_BUCKET }}
           command: up
-          stack-name: organization/sapientone/staging
+          stack-name: organization/sapientone/production
           work-dir: ./iac
         env:
           GOOGLE_CREDENTIALS: "${{ secrets.GOOGLE_CREDENTIALS }}"
