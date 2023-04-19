@@ -1,0 +1,9 @@
+.app {
+    margin: 50px auto;
+    width: 100%;
+    max-width: 800px;
+}
+
+.padding15 {
+    padding: 15px;
+}

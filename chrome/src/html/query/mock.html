@@ -4,17 +4,48 @@
 <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/sapientone-icon.png" />
+    <link rel="stylesheet" href="/src/html/query/style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sapientone: Test pageHelper.ts</title>
 </head>
 
 <body>
-    <div id="app">
-        <div>
-            <h1>Sapientone: Mock Query (src/html/query/mock.ts)</h1>
+    <div class="app">
+        <div id="app" class="padding15">
+            <div>
+                <h1>Sapientone: Mock Query (src/html/query/mock.ts)</h1>
+            </div>
+            <div>What is my name?</div>
+            <div>Where do I live?</div>
         </div>
-        <div>What is my name?</div>
-        <div>Where do I live?</div>
+        <div class="padding15">
+            <div class="padding15">Form 1</div>
+            <div class="padding15">
+                <label for="name">Name</label>
+                <input type="text" id="name" />
+            </div>
+            <div class="padding15">
+                <label for="age">Age</label>
+                <input type="number" id="age" />
+            </div>
+        </div>
+        <div class="padding15">
+            <div class="padding15">Form 2</div>
+            <div class="padding15">
+                <div class="padding15">
+                    <label for="something-about-you">Something about you</label>
+                    <textarea id="something-about-you"></textarea>
+                </div>
+                <div class="padding15">
+                    <label for="favourite-dish">Favourite dish</label>
+                    <select id="favourite-dish">
+                        <option value="pizza">Pizza</option>
+                        <option value="pasta">Pasta</option>
+                        <option value="burrito">Burrito</option>
+                    </select>
+                </div>
+            </div>
+        </div>
     </div>
     <script type="module" src="/src/html/query/mock.ts"></script>
 </body>

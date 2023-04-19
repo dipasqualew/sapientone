@@ -10,7 +10,8 @@
     "permissions": [
         "activeTab",
         "scripting",
-        "storage"
+        "storage",
+        "contextMenus"
     ],
     "commands": {
         "popup_selection": {
