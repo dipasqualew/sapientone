@@ -73,6 +73,10 @@ class VectorRepo:
 
     def load_document(self, document_id: str) -> tuple[Document, VECTOR_OPERATIONS]:
         document = self._get_document(document_id)
+
+        if not document.page_content:
+            return document, "skipped"
+
         operation = "created"
 
         content_hash = self._hash_content(document.page_content)
