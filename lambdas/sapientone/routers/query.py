@@ -16,6 +16,7 @@ router = APIRouter(dependencies=[Depends(api_key_auth)])
 class AnswerQuestionPayload(BaseModel):
     question: str
     index_name: str
+    temperature: float = 0.7
 
 
 @router.post("/question")
@@ -24,7 +25,11 @@ def http_answer(
     env_vars: Annotated[ExpectedEnvironmentVariables, Depends(get_env_vars)],
     VectorClass: Annotated[Type[PGVectorStore], Depends(get_vectorstore_class)],
 ):
-    vectorstore = VectorClass(env_vars.PGVECTOR_CONNECTION_STRING, payload.index_name)
+    vectorstore = VectorClass(
+        env_vars.PGVECTOR_CONNECTION_STRING,
+        payload.index_name,
+        temperature=payload.temperature,
+    )
     answer = vectorstore.query(payload.question)
 
     response_body = {

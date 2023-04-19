@@ -28,7 +28,7 @@ class BaseVectorStore(Protocol):
 
 
 class PGVectorStore(BaseVectorStore):
-    def __init__(self, connection_string: str, index_name: str):
+    def __init__(self, connection_string: str, index_name: str, temperature: float = 0):
         self.index_name = index_name
         self.vectorstore = get_pgvector(connection_string, index_name)
 
@@ -37,7 +37,7 @@ class PGVectorStore(BaseVectorStore):
             template="Only answer with the relevant content, without dot. Query: {query}",
         )
 
-        self.llm = OpenAI(temperature=0)  # type: ignore[call-arg] # Typing is wrong here
+        self.llm = OpenAI(temperature=temperature)  # type: ignore[call-arg] # Typing is wrong here
         self.retriever = self.vectorstore.as_retriever()
 
         self.qa = RetrievalQA.from_chain_type(llm=self.llm, chain_type="stuff", retriever=self.retriever)
