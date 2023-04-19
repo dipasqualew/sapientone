@@ -1,4 +1,3 @@
-import json
 from typing import Any
 
 from langchain.document_loaders.notiondb import NotionDBLoader, PAGE_URL
@@ -81,6 +80,19 @@ class NotionRepo(VectorRepo):
 
         # add metadata
         if self.prepend_metadata:
-            document.page_content = json.dumps(document.metadata) + "\n\n" + document.page_content
+            document.page_content = self._textify_metadata(document.metadata) + "\n\n" + document.page_content
 
         return document
+
+    def _textify_metadata(self, metadata: dict[str, str]) -> str:
+        results = []
+        for key, value in metadata.items():
+            if key == "id":
+                continue
+
+            if value is None:
+                continue
+
+            results.append(f"{key}: {value}")
+
+        return "\n".join(results)

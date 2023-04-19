@@ -5,7 +5,6 @@ description = ""
 authors = ["William Di Pasquale <wdp@dipasqualew.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "sapientone_lambdas"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
