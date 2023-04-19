@@ -65,7 +65,7 @@ def the_user_queries_with_the_api_key_name_to_add_content(
     page_id = pages[page_name]
 
     json_data = {
-        "page_id": page_id,
+        "page_ids": [page_id],
         "notion_integration_token": notion_integration_token,
         "index_name": bdd_index_name,
     }

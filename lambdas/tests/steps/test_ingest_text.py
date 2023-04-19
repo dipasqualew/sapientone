@@ -19,9 +19,9 @@ def test_add_text_and_metadata_to_an_existing_index():
     pass
 
 
-# @scenario(FEATURE, "Add text and metadata to a new index")
-# def test_add_text_and_metadata_to_a_new_index():
-#     pass
+@scenario(FEATURE, "Add text and metadata to a new index")
+def test_add_text_and_metadata_to_a_new_index():
+    pass
 
 
 @when(

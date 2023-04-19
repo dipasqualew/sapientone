@@ -25,6 +25,8 @@ jobs:
           command: up
           stack-name: organization/sapientone/staging
           work-dir: ./iac
+          comment-on-pr: true
+          color: always
         env:
           GOOGLE_CREDENTIALS: "${{ secrets.GOOGLE_CREDENTIALS }}"
           PULUMI_CONFIG_PASSPHRASE: ${{ secrets.PULUMI_CONFIG_PASSPHRASE }}

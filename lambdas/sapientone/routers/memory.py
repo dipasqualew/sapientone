@@ -13,6 +13,7 @@ from sapientone.dependencies import (
     get_env_vars,
     get_vectorstore_class,
 )
+from sapientone.vendors.pgvector import VectorRepo
 from sapientone.vendors.notion import NotionRepo, TextRepo
 
 router = APIRouter(dependencies=[Depends(api_key_auth)])
@@ -26,6 +27,25 @@ class AppendToIndexRow(BaseModel):
 class AppendToIndexPayload(BaseModel):
     index_name: str
     rows: list[AppendToIndexRow]
+
+
+def _ingest_documents(document_ids: list[str], repo: VectorRepo):
+    operations = []
+
+    for document_id in document_ids:
+        _document, operation = repo.load_document(document_id)
+        operations.append(
+            {
+                "document_id": document_id,
+                "operation": operation,
+            }
+        )
+
+    response_body = {
+        "data": {"operations": operations},
+    }
+
+    return response_body
 
 
 @router.post("/append/text")
@@ -46,23 +66,16 @@ def http_index_append_text(
         for row in payload.rows
     ]
     repo = TextRepo(db.vectorstore, documents)
+    document_ids = [document.metadata["id"] for document in documents]
 
-    for document in documents:
-        repo.load_document(document.metadata["id"])
-
-    response_body = {
-        "data": {
-            "added_rows": len(documents),
-            "operation": "created",
-        }
-    }
+    response_body = _ingest_documents(document_ids, repo)
 
     return response_body
 
 
 class AppendNotionPagePayload(BaseModel):
     index_name: str
-    page_id: str
+    page_ids: list[str]
     notion_integration_token: str
 
 
@@ -72,18 +85,11 @@ def http_index_append_notion(
     env_vars: Annotated[ExpectedEnvironmentVariables, Depends(get_env_vars)],
     VectorClass: Annotated[Type[PGVectorStore], Depends(get_vectorstore_class)],
 ):
-    loader = NotionDBLoader(integration_token=payload.notion_integration_token, database_id="unused")
     db = VectorClass(env_vars.PGVECTOR_CONNECTION_STRING, payload.index_name)
+    loader = NotionDBLoader(integration_token=payload.notion_integration_token, database_id="unused")
 
     repo = NotionRepo(db.vectorstore, loader)
 
-    _, operation = repo.load_document(payload.page_id)
-
-    response_body = {
-        "data": {
-            "added_rows": 1,
-            "operation": operation,
-        }
-    }
+    response_body = _ingest_documents(payload.page_ids, repo)
 
     return response_body

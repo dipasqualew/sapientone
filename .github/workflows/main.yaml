@@ -1,4 +1,4 @@
-name: Deploy Infrastructure to Staging
+name: Deploy Infrastructure to Production
 on:
   push:
     branches:
@@ -28,6 +28,7 @@ jobs:
           command: up
           stack-name: organization/sapientone/production
           work-dir: ./iac
+          color: always
         env:
           GOOGLE_CREDENTIALS: "${{ secrets.GOOGLE_CREDENTIALS }}"
           PULUMI_CONFIG_PASSPHRASE: ${{ secrets.PULUMI_CONFIG_PASSPHRASE }}

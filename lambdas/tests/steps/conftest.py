@@ -2,7 +2,7 @@ from typing import Union
 
 import httpx
 from pytest_bdd import given, then, parsers, when
-from langchain.vectorstores.pgvector import EmbeddingStore
+from langchain.vectorstores.pgvector import PGVector, EmbeddingStore
 from langchain.schema import Document
 from sqlalchemy.orm import Session
 
@@ -18,6 +18,22 @@ QA = {
 }
 
 
+def _clean_collection(pgvector: PGVector):
+    with Session(pgvector._conn) as session:
+        collection = pgvector.get_collection(session)
+
+        if not collection:
+            raise ValueError("Collection not found")
+
+        _query = (
+            session.query(EmbeddingStore)
+            .filter(EmbeddingStore.collection_id == collection.uuid)
+            .delete(synchronize_session=False)
+        )
+
+        session.commit()
+
+
 @given(
     parsers.parse('an index named "{index_name}"'),
     target_fixture="bdd_index_name",
@@ -26,26 +42,29 @@ def an_index_named_index_name(test_type: str, index_name: str, env_vars: Expecte
     if test_type == "integration":
         pgvector = get_pgvector(env_vars.PGVECTOR_CONNECTION_STRING, index_name)
 
-        def _clean_collection():
-            with Session(pgvector._conn) as session:
-                collection = pgvector.get_collection(session)
-
-                if not collection:
-                    raise ValueError("Collection not found")
-
-                _query = (
-                    session.query(EmbeddingStore)
-                    .filter(EmbeddingStore.collection_id == collection.uuid)
-                    .delete(synchronize_session=False)
-                )
-
-                session.commit()
-
         pgvector.create_collection()
-        _clean_collection()
+        _clean_collection(pgvector)
 
         yield index_name
-        _clean_collection()
+
+        _clean_collection(pgvector)
+
+    else:
+        yield index_name
+
+
+@given(
+    parsers.parse('an index named "{index_name}" doesn\'t exist'),
+    target_fixture="bdd_index_name",
+)
+def an_index_named_index_name_doesnt_exist(test_type: str, index_name: str, env_vars: ExpectedEnvironmentVariables):
+    if test_type == "integration":
+        pgvector = get_pgvector(env_vars.PGVECTOR_CONNECTION_STRING, index_name)
+        pgvector.delete_collection()
+
+        yield index_name
+
+        _clean_collection(pgvector)
 
     else:
         yield index_name
