@@ -1,19 +1,17 @@
-encryptionsalt: v1:zATKf94mVfg=:v1:4uTImlAqXiQNVgQ3:qZMJR0IGnNDMP344vEKPEQ9theTvOQ==
+encryptionsalt: v1:tJAwzNK0E2E=:v1:WyX8oAPFuCs1yDTi:96j6lkwFS4INoXSjl+ew1fVqHAUCog==
 config:
   cloudflare:apiToken:
-    secure: v1:SZF7lFens48o6TUd:WLDcQOkD6ul7hP485QK+U11dTXbpPei24N1lgX8wmOr4BTC7/gD0SKgMGK+qFhrbz/FckLLCvXY=
-  gcp:project: sapientone-dev
-  sapientone:CLOUDFLARE_API_TOKEN:
-    secure: v1:vTi7cEOjUP9bDKpM:ZIWhhx6/1+7Tj9untKlgyP4HcNB+8+k7BGLmfRQOKaHmYZdb1lfia4js1VbKYPXtKF0xBAB+yVs=
+    secure: v1:X/YGNDfEIEca0gMP:FuR+gtTlx1c8+vfXKYSEV7zHPhIATZCDZA7luIN29q/czh4rbtrPGDitgPe99InHEcLo4+f1o5I=
+  gcp:project: sapientone
   sapientone:CLOUDFLARE_ZONE_ID: fcb595c1ddb4396f6a1474495bf2eb77
-  sapientone:GOOGLE_PROJECT: sapientone-dev
+  sapientone:GOOGLE_PROJECT: sapientone
   sapientone:NOTION_INTEGRATION_KEY:
-    secure: v1:QK33vmOYZ5Kppeuf:gTulD0iPWdQV+3U7os2dNlFZ/5N2WD52CQe0dyX8nUYWTGiRFKPKFUPYr1KtcYv+XSBe5ho2CV4vt5LIZITvJPRd
+    secure: v1:9TFhoKEnHkB2R9V0:7gCsJ2ADR5I2wFM9zvppb3Aj+6tY85wMtrcemP0pg82an9VAKYCEgY/rUT2u2XBt0/UKsl+4rYt5/AwTkoUKXW0K
   sapientone:OPENAI_API_KEY:
-    secure: v1:LkZ1h/+Pf9qNJLi3:xayih2yANTqYQzTZRHRx0jTwsHrHyvgyeh2xluEZMlm9mqwnMCT89eCLTp1NXApxR8ds2hkj9bikIYMMk+c+0qAtyA==
+    secure: v1:IKqnMil/OBSzjDso:YJ2wSaGtl3MQj7d9OgSRUxpw/x4/152qFtWxW4yUJQXzOwZ+noZasWN46hTv9LVI+xQpZsASdEdc0MlqqMl996vwdQ==
   sapientone:PGVECTOR_CONNECTION_STRING:
-    secure: v1:G9QtwHXj0mxKMlI8:2RzGhJqci2NPnHmERia7wWM/QgnRFBEerayXH+ywvahyzdCVvAYeXUo55gRuavaYaO6736Z0f/WBCtYGxD8hbzWNnlP5QNMoZEhG7col0q/cl2kSGPt6Y5qQHVPH5sHmMmi3kQv2q4k=
+    secure: v1:OU0I1OBitKWlB7d9:BYiXV3EBZ0r7TNq8JS/AO8UwpV/C1IVgzUcDFqYKSr4KinoYQ85ml8DcqEUf2HF/3kz9VRnVG/WpZ6RHavMFQhtkGZRTDgD+hcgvjFn03wJow4Wkm8agkJ+RDf1IFEV9DRc6c65Tdfc=
   sapientone:SAPIENTONE_API_KEY:
-    secure: v1:b4fnA/wSdwD3mExD:PHHZMdXub0YEZJdcpl7X+/V9Czk90HMOfWWYJZmfWT1CwsXQT9zojCZBNOZLC7oBYwVaTQ==
+    secure: v1:fk4MPai9+WQLVeAq:2kHLPIXpgZsZDPuFn95ZYS1HxBWX5knZI7vrxYfSPS6arc4zonTbWUgEvIYKzAgddDZ4FQ==
   sapientone:base_domain: sapientone.dipasqualew.com
   sapientone:region: europe-west1

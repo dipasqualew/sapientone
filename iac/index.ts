@@ -5,12 +5,17 @@ import { enableAPIs } from './modules/gcp/utils';
 import { createSecrets } from './modules/gcp/secrets';
 import { deployImage } from './modules/gcp/containers';
 import { GCPCloudRunService } from './modules/gcp/cloudrun';
+import { stackConfig } from './config';
 
 dotenv.config({ path: '../.env' })
 
 const REQUIRED_APIS = [
     // Also remember to authenticate docker:
     // cat ${GOOGLE_APPLICATION_CREDENTIALS} | docker login -u _json_key --password-stdin https://gcr.io
+
+    // Also remember to verify the domain against the service user
+    // https://www.google.com/webmasters/verification/details?hl=en&domain=your-parent-domain.com
+    // email can be found in the json key file
     "cloudresourcemanager",
     "iam",
     'secretmanager',
@@ -20,9 +25,6 @@ const REQUIRED_APIS = [
 
 
 const main = () => {
-    const config = new pulumi.Config();
-    const project = "sapientone"
-
     const enabledAPIs = enableAPIs(REQUIRED_APIS);
 
     const secrets = createSecrets(['OPENAI_API_KEY', 'SAPIENTONE_API_KEY', 'PGVECTOR_CONNECTION_STRING'] as const, { dependsOn: enabledAPIs });
@@ -30,8 +32,7 @@ const main = () => {
     const image = deployImage("../lambdas");
 
     const cloudRunAnswerQuestion = new GCPCloudRunService({
-        project,
-        zoneId: config.require("CLOUDFLARE_ZONE_ID"),
+        zoneId: stackConfig.require("CLOUDFLARE_ZONE_ID"),
         allowUnauthorized: true,
         appConfig: {
             name: 'memory-service',

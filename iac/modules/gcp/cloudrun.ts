@@ -31,7 +31,6 @@ export interface AppConfiguration {
 }
 
 export interface GCPCloudRunServiceConstructor {
-    project: string;
     appConfig: AppConfiguration;
     zoneId: string;
     allowUnauthorized?: boolean;
@@ -39,7 +38,6 @@ export interface GCPCloudRunServiceConstructor {
 
 
 export class GCPCloudRunService extends pulumi.ComponentResource {
-    project: string;
     name: string;
     region: string;
     url: string;
@@ -49,12 +47,11 @@ export class GCPCloudRunService extends pulumi.ComponentResource {
     constructor(config: GCPCloudRunServiceConstructor, opt: pulumi.ComponentResourceOptions = {}) {
         super("gcp:cloudrun", config.appConfig.name, {}, opt);
 
-        this.project = config.project;
         this.name = config.appConfig.name;
         this.region = stackConfig.require("region");
         this.url = `${config.appConfig.name}.${stack}.${stackConfig.require("base_domain")}`;
 
-        const access = this.setupAccess(this.project, config.appConfig.secrets);
+        const access = this.setupAccess(project, config.appConfig.secrets);
 
         this.serviceAccount = access.account.email;
 
@@ -81,7 +78,7 @@ export class GCPCloudRunService extends pulumi.ComponentResource {
     }
 
     get prefix(): string {
-        return `${this.project}-${this.name}`
+        return `${this.name}-${stack}`;
     }
 
     setupAccess(project: string, secrets: GCPFunctionSecretDefinition[] = []) {
@@ -92,11 +89,11 @@ export class GCPCloudRunService extends pulumi.ComponentResource {
             parent: this,
         });
 
-        const secretAccessorRoles = getSecretAccessorRoles(this, this.name, serviceAccount, secrets);
+        const secretAccessorRoles = getSecretAccessorRoles(this, this.prefix, serviceAccount, secrets);
 
         // Grant the service account the necessary IAM roles
         const serviceAccountIam = new gcp.projects.IAMBinding(`${this.prefix}-iam`, {
-            project: this.project,
+            project: project,
             role: "roles/run.admin",
             members: [serviceAccount.email.apply((email) => `serviceAccount:${email}`)],
         }, {
@@ -157,7 +154,7 @@ export class GCPCloudRunService extends pulumi.ComponentResource {
         }, { dependsOn: [serviceAccount], parent: this, });
 
         new GCPDomainMapping({
-            googleProjectId: this.project,
+            googleProjectId: project,
             domain: this.url,
             region: this.region,
             cloudFlareZoneId,
