@@ -2,7 +2,6 @@ from typing import Annotated, Type
 
 from fastapi import APIRouter, Depends
 from langchain.schema import Document
-from langchain.document_loaders.notiondb import NotionDBLoader
 
 from pydantic import BaseModel
 
@@ -14,7 +13,7 @@ from sapientone.dependencies import (
     get_vectorstore_class,
 )
 from sapientone.vendors.pgvector import VectorRepo
-from sapientone.vendors.notion import NotionRepo, TextRepo
+from sapientone.vendors.notion import SapientoneNotionDBLoader, NotionRepo, TextRepo
 
 router = APIRouter(dependencies=[Depends(api_key_auth)])
 
@@ -86,7 +85,7 @@ def http_index_append_notion(
     VectorClass: Annotated[Type[PGVectorStore], Depends(get_vectorstore_class)],
 ):
     db = VectorClass(env_vars.PGVECTOR_CONNECTION_STRING, payload.index_name)
-    loader = NotionDBLoader(integration_token=payload.notion_integration_token, database_id="unused")
+    loader = SapientoneNotionDBLoader(integration_token=payload.notion_integration_token, database_id="unused")
 
     repo = NotionRepo(db.vectorstore, loader)
 

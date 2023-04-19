@@ -3,7 +3,7 @@ import os
 import click
 import httpx
 
-from langchain.document_loaders.notiondb import NotionDBLoader
+from sapientone.vendors.notion import SapientoneNotionDBLoader
 
 
 @click.group("notion")
@@ -82,7 +82,7 @@ def _notion__index_database(
 ) -> None:
     print(f"Fetching database '{database_id}' pages...")
 
-    loader = NotionDBLoader(notion_token, database_id)
+    loader = SapientoneNotionDBLoader(notion_token, database_id)
     page_ids = loader._retrieve_page_ids()
 
     _notion__index_page(sapientone_token, notion_token, index_name, url, page_ids)
