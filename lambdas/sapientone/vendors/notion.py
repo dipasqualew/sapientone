@@ -1,3 +1,5 @@
+import json
+
 from langchain.document_loaders.notiondb import NotionDBLoader
 from langchain.vectorstores.pgvector import PGVector
 from langchain.schema import Document
@@ -30,9 +32,17 @@ class NotionRepo(VectorRepo):
         self,
         pgvector: PGVector,
         notion_loader: NotionDBLoader,
+        prepend_metadata: bool = True,
     ):
         super().__init__(pgvector)
         self.notion = notion_loader
+        self.prepend_metadata = prepend_metadata
 
     def _get_document(self, document_id: str) -> Document:
-        return self.notion.load_page(document_id)
+        document = self.notion.load_page(document_id)
+
+        # add metadata
+        if self.prepend_metadata:
+            document.page_content = json.dumps(document.metadata) + "\n\n" + document.page_content
+
+        return document
