@@ -15,3 +15,5 @@ config:
     secure: v1:V9EahVSTb9lT4zeV:LzpLH+u2bZPivwv0LAqdxsOn6v3EyRqP9UGgIR30SDATDe0rQHGy+y01QslPcB/3AtX/8A==
   sapientone:base_domain: sapientone.dipasqualew.com
   sapientone:region: europe-west1
+  sentry:token:
+    secure: v1:dDx8mgwucN5gJEJ7:CXYID2id/1ca8fxSRc2D4LN4oub6nG6AU6Dulp9X/IWtWF4LKOa81QkYfBtECvjwCuCenJpotrNvARHMjx+w4MUNFDNfzfnLWLptmVl/mP4=

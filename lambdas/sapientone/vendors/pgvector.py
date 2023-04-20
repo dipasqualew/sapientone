@@ -112,7 +112,7 @@ class VectorRepo:
                 session.query(EmbeddingStore)
                 .filter(EmbeddingStore.collection_id == collection.uuid)
                 .filter(EmbeddingStore.cmetadata["id"].astext == page_id)
-                .delete(synchronize_session=False)
+                .delete(synchronize_session="evaluate")
             )
 
             session.commit()
